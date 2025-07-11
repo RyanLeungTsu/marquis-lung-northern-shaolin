@@ -1,19 +1,19 @@
 <?php
 /**
- * Twenty Twenty-Five functions and definitions.
+ * Northern Shaolin Theme functions and definitions.
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
  * @package WordPress
- * @subpackage Twenty_Twenty_Five
- * @since Twenty Twenty-Five 1.0
+ * @subpackage northern-shaolin-theme
+ * @since northern-shaolin-theme 1.0
  */
 
 //  Enqueue Styles
-function enqueue_styles() {
-    wp_enqueue_style('northern-shaolin-style', get_theme_file_uri('/style.css'), [], '1.0');
+function enqueueStyles() {
+    wp_enqueue_style('northernShaolinStyle', get_theme_file_uri('/style.css'), [], '1.0');
 }
-add_action('wp_enqueue_scripts', 'enqueue_styles');
+add_action('wp_enqueue_scripts', 'enqueueStyles');
 
 // Block editor support
 add_theme_support('editor-styles');
@@ -21,8 +21,7 @@ add_editor_style('/assets/css/editor.css');
 
 // CUSTOM CPTS
 // Custom Post Type: Instructors
-function register_instructors_cpt()
-{
+function registerInstructorsCpt() {
     $args = array(
         'labels' => array(
             'name' => 'Instructors',
@@ -33,16 +32,15 @@ function register_instructors_cpt()
         'rewrite' => array('slug' => 'instructors'),
         'supports' => array('title', 'editor', 'thumbnail'),
         'menu_position' => 5,
-        'menu_icon' => 'dashicons-groups', 
+        'menu_icon' => 'dashicons-groups',
         'show_in_rest' => true,
     );
     register_post_type('instructor', $args);
 }
-add_action('init', 'register_instructors_cpt');
+add_action('init', 'registerInstructorsCpt');
 
 // Custom Post Type: Directors
-function register_directors_cpt()
-{
+function registerDirectorsCpt() {
     $args = array(
         'labels' => array(
             'name' => 'Directors',
@@ -53,17 +51,16 @@ function register_directors_cpt()
         'rewrite' => array('slug' => 'directors'),
         'supports' => array('title', 'editor', 'thumbnail'),
         'menu_position' => 5,
-        'menu_icon' => 'dashicons-businessman', 
+        'menu_icon' => 'dashicons-businessman',
         'show_in_rest' => true,
     );
     register_post_type('director', $args);
 }
-add_action('init', 'register_directors_cpt');
+add_action('init', 'registerDirectorsCpt');
 
 // CUSTOM TAXONOMY
-// Custom Taxonomy: Pinetree
-function register_location_taxonomy()
-{
+// Custom Taxonomy: Location
+function registerLocationTaxonomy() {
     register_taxonomy('location', 'instructor', array(
         'labels' => array(
             'name' => 'Locations',
@@ -71,30 +68,30 @@ function register_location_taxonomy()
             'add_new_item' => 'Add New Location',
             'new_item_name' => 'New Location Name',
         ),
-        'hierarchical' => false, 
+        'hierarchical' => false,
         'show_admin_column' => true,
         'rewrite' => array('slug' => 'pinetree'),
         'show_in_rest' => true,
     ));
 
-	$default_locations = array(
-		'Pinetree',
-		'Douglas Park',
+    $defaultLocations = array(
+        'Pinetree',
+        'Douglas Park',
         'Britannia',
         'Lochdale Hall',
         'Killarney'
-	);
+    );
 
-	foreach ($default_locations as $location) {
+    foreach ($defaultLocations as $location) {
         if (!term_exists($location, 'location')) {
             wp_insert_term($location, 'location');
         }
     }
 }
-add_action('init', 'register_location_taxonomy');
+add_action('init', 'registerLocationTaxonomy');
 
 // Custom Taxonomy: Status
-function register_status_taxonomy() {
+function registerStatusTaxonomy() {
     register_taxonomy('status', 'instructor', array(
         'labels' => array(
             'name' => 'Status',
@@ -102,25 +99,58 @@ function register_status_taxonomy() {
             'add_new_item' => 'Add New Status',
             'new_item_name' => 'New Status Name',
         ),
-        'hierarchical' => false, // Like tags
+        // set false for tags
+        'hierarchical' => false, 
         'show_admin_column' => true,
         'rewrite' => array('slug' => 'status'),
         'show_in_rest' => true,
     ));
 
-    $default_statuses = array('Current', 'Former');
+    $defaultStatuses = array('Current', 'Former');
 
-    foreach ($default_statuses as $status) {
+    foreach ($defaultStatuses as $status) {
         if (!term_exists($status, 'status')) {
             wp_insert_term($status, 'status');
         }
     }
 }
-add_action('init', 'register_status_taxonomy');
+add_action('init', 'registerStatusTaxonomy');
 
 // Shortcode
-// Shortcode: Carousel
-function luxeline_carousel_shortcode() {
-    return '<div id="home-carousel" class="carousel"></div>';
+// Shortcode and Enqueue: Carousel
+function enqueueHeroCarousel() {
+    wp_enqueue_script(
+        'heroCarouselJs',
+        get_template_directory_uri() . '/assets/js/carousel/carousel.js',
+        array(),
+        null,
+        true
+    );
+
+    wp_enqueue_style(
+        'hero-carousel-css',
+        get_template_directory_uri() . '/assets/css/carousel.css'
+    );
 }
-add_shortcode('carousel', 'home_carousel_shortcode');
+add_action('wp_enqueue_scripts', 'enqueueHeroCarousel');
+
+function heroCarousel() {
+    // Grabbing images from ACF field w ID
+    $images = get_field('carousel_images', get_the_ID()); 
+
+    if (!$images) return '<p>No images found.</p>';
+
+    ob_start(); ?>
+
+    <div class="hero-carousel">
+        <?php foreach ($images as $image): ?>
+            <div class="carousel-slide">
+                <img src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" />
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+    <?php
+    return ob_get_clean();
+}
+add_shortcode('hero_carousel', 'heroCarousel');
