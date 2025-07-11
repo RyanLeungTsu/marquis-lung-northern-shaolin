@@ -145,7 +145,8 @@ function heroCarousel() {
     <div class="hero-carousel">
         <?php foreach ($images as $image): ?>
             <div class="carousel-slide">
-                <img src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" />
+                 <img src="<?php echo esc_url(wp_get_attachment_image_url($image['ID'], 'bg')); ?>" 
+                     alt="<?php echo esc_attr($image['alt']); ?>" />
             </div>
         <?php endforeach; ?>
     </div>
@@ -154,3 +155,31 @@ function heroCarousel() {
     return ob_get_clean();
 }
 add_shortcode('hero_carousel', 'heroCarousel');
+// To ensure images use BG
+$images = get_field('group_68705bd0b583a'); 
+if ($images) {
+    foreach ($images as $image) {
+        $image_url = wp_get_attachment_image_url($image['ID'], 'bg'); 
+        echo '<img src="' . esc_url($image_url) . '" alt="' . esc_attr($image['alt']) . '" />';
+    }
+}
+
+// Custom Image Sizes
+function custom_image_sizes() {
+    // Add custom image sizes
+    add_image_size('small', 150, 150, true);      
+    add_image_size('medium', 300, 300, true);      
+    add_image_size('large', 600, 600, true);      
+    add_image_size('bg', 1920, 1080, true);      
+
+    // Add custom sizes to media selector dropdown in WP Admin
+    add_filter('image_size_names_choose', function ($sizes) {
+        return array_merge($sizes, [
+            'small' => __('NS Small'),
+            'medium' => __('NS Medium'),
+            'large' => __('NS Large'),
+            'bg' => __('NS Background'),
+        ]);
+    });
+}
+add_action('after_setup_theme', 'custom_image_sizes');
