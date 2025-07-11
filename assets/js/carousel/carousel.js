@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
             slide.classList.toggle('active', i === index);
         });
     }
+    
+    Carousel(current);
 
     setInterval(() => {
         current = (current + 1) % slides.length;
