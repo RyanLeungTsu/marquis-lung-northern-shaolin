@@ -17,7 +17,9 @@ function enqueueStyles() {
 
     wp_enqueue_style('ns-carousel-style', get_template_directory_uri() . '/assets/css/carousel.css', [], '1.0');
 
-     wp_enqueue_style('ns-home-page-style', get_template_directory_uri() . '/assets/css/home.css', [], '1.0');
+    wp_enqueue_style('ns-home-page-style', get_template_directory_uri() . '/assets/css/home.css', [], '1.0');
+
+    wp_enqueue_style('ns-scroll-arrow-style', get_template_directory_uri() . '/assets/css/scroll-arrow.css', [], '1.0');
 }
 add_action('wp_enqueue_scripts', 'enqueueStyles');
 
@@ -140,7 +142,7 @@ function enqueueHeroCarousel() {
 }
 add_action('wp_enqueue_scripts', 'enqueueHeroCarousel');
 
-function heroCarousel() {
+function heroCarouselShortcode() {
     // Grabbing images from ACF field w ID
     $images = get_field('carousel_images', get_the_ID()); 
 
@@ -160,7 +162,7 @@ function heroCarousel() {
     <?php
     return ob_get_clean();
 }
-add_shortcode('hero_carousel', 'heroCarousel');
+add_shortcode('hero_carousel', 'heroCarouselShortcode');
 // To ensure images use BG
 $images = get_field('group_68705bd0b583a'); 
 if ($images) {
@@ -169,6 +171,26 @@ if ($images) {
         echo '<img src="' . esc_url($image_url) . '" alt="' . esc_attr($image['alt']) . '" />';
     }
 }
+
+// Shortcode: Scroll Arrow
+function enqueueScrollArrow() {
+    wp_register_script(
+        'scroll-arrow-script',
+        get_template_directory_uri() . '/assets/js/scroll-arrow/scroll-arrow.js',
+        [],
+        '1.0',
+        true
+    );
+}
+add_action('init', 'enqueueScrollArrow');
+
+function scrollArrowShortcode() {
+  wp_enqueue_style('scroll-arrow-style');
+  wp_enqueue_script('scroll-arrow-script');
+
+  return '<div id="scroll-arrow-container"></div>';
+}
+add_shortcode('scroll_arrow', 'scrollArrowShortcode');
 
 // Custom Image Sizes
 function custom_image_sizes() {
