@@ -1,0 +1,19 @@
+.hero-section {
+  position: relative;
+}
+
+.hero-section .wp-block-group:first-child {
+  position: absolute;
+  text-align: center;
+  color: white;
+  z-index: 2;
+}
+
+.hero-section .wp-block-heading,
+.hero-section .wp-block-paragraph {
+  color: white;
+}
+
+.hero-section .wp-block-heading {
+  text-shadow: 0.2rem 0.2rem 0.5rem rgba(0, 0, 0, 0.7);
+}

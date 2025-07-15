@@ -8,10 +8,16 @@
  * @subpackage northern-shaolin-theme
  * @since northern-shaolin-theme 1.0
  */
+// Animate on Scroll from https://michalsnik.github.io/aos/
+
 
 //  Enqueue Styles
 function enqueueStyles() {
     wp_enqueue_style('northernShaolinStyle', get_theme_file_uri('/style.css'), [], '1.0');
+
+    wp_enqueue_style('ns-carousel-style', get_template_directory_uri() . '/assets/css/carousel.css', [], '1.0');
+
+     wp_enqueue_style('ns-home-page-style', get_template_directory_uri() . '/assets/css/home.css', [], '1.0');
 }
 add_action('wp_enqueue_scripts', 'enqueueStyles');
 
