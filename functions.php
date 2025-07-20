@@ -96,7 +96,7 @@ function registerLocationTaxonomy()
         'Britannia',
         'Lochdale Hall',
         'Killarney',
-        'All'
+        'Sifu'
     );
 
     foreach ($defaultLocations as $location) {
@@ -119,7 +119,7 @@ function registerStatusTaxonomy()
             'add_new_item' => 'Add New Status',
             'new_item_name' => 'New Status Name',
         ),
-        'hierarchical' => true, 
+        'hierarchical' => true,
         'show_admin_column' => true,
         'rewrite' => array('slug' => $taxonomy),
         'show_in_rest' => true,
@@ -147,7 +147,7 @@ function registerDirectorTitleTaxonomy()
             'add_new_item' => 'Add New Title',
             'new_item_name' => 'New Title Name',
         ),
-        'hierarchical' => true, 
+        'hierarchical' => true,
         'show_admin_column' => true,
         'rewrite' => array('slug' => $taxonomy),
         'show_in_rest' => true,
@@ -274,7 +274,6 @@ add_action('wp_enqueue_scripts', 'enqueueFullCalendar');
 
 function fullCalendarShortcode()
 {
-    // Enqueue styles & scripts
     wp_enqueue_style('fullcalendar-css');
     wp_enqueue_script('fullcalendar-js');
 
@@ -290,6 +289,46 @@ function fullCalendarShortcode()
     return '<div id="calendar"></div>';
 }
 add_shortcode('fullcalendar', 'fullCalendarShortcode');
+
+function sifuBlockShortcode()
+{
+    $args = array(
+        'post_type' => 'instructor',
+        'tax_query' => array(
+            array(
+                'taxonomy' => 'location',
+                'field' => 'slug',
+                'terms' => 'sifu',
+            ),
+        ),
+        'posts_per_page' => -1,
+    );
+
+    $query = new WP_Query($args);
+
+    if (!$query->have_posts()) {
+        return '<p>No instructors found with location "Sifu".</p>';
+    }
+
+    ob_start();
+
+    echo '<div class="sifuBlock">';
+
+    while ($query->have_posts()) {
+        $query->the_post();
+
+        echo '<div class="sifuPost">';
+        echo '<h2><a href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a></h2>';
+        echo '</div>';
+    }
+
+    echo '</div>';
+
+    wp_reset_postdata();
+
+    return ob_get_clean();
+}
+add_shortcode('sifu_block', 'sifuBlockShortcode');
 // Custom Image Sizes
 function custom_image_sizes()
 {
