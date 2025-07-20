@@ -95,7 +95,8 @@ function registerLocationTaxonomy()
         'Douglas Park',
         'Britannia',
         'Lochdale Hall',
-        'Killarney'
+        'Killarney',
+        'All'
     );
 
     foreach ($defaultLocations as $location) {
@@ -111,7 +112,7 @@ function registerStatusTaxonomy()
 {
     $taxonomy = 'ns-status';
 
-    register_taxonomy($taxonomy, 'instructor', array(
+    register_taxonomy($taxonomy, array('instructor', 'director'), array(
         'labels' => array(
             'name' => 'Status',
             'singular_name' => 'Status',
@@ -133,6 +134,34 @@ function registerStatusTaxonomy()
     }
 }
 add_action('init', 'registerStatusTaxonomy');
+
+// Custom Taxonomy: Director Title
+function registerDirectorTitleTaxonomy()
+{
+    $taxonomy = 'director-title';
+
+    register_taxonomy($taxonomy, 'director', array(
+        'labels' => array(
+            'name' => 'Title',
+            'singular_name' => 'Title',
+            'add_new_item' => 'Add New Title',
+            'new_item_name' => 'New Title Name',
+        ),
+        'hierarchical' => true, 
+        'show_admin_column' => true,
+        'rewrite' => array('slug' => $taxonomy),
+        'show_in_rest' => true,
+    ));
+
+    $defaultTitle = array('President', 'Vice President', 'Treasurer', 'Secretary', 'Member');
+
+    foreach ($defaultTitle as $title) {
+        if (!term_exists($title, $taxonomy)) {
+            wp_insert_term($title, $taxonomy);
+        }
+    }
+}
+add_action('init', 'registerDirectorTitleTaxonomy');
 
 // Shortcode
 // Shortcode and Enqueue: Carousel
