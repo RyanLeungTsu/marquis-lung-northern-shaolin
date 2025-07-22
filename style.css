@@ -65,3 +65,22 @@ a:focus {
   outline: none;
   box-shadow: none;
 }
+
+/* For Instructor columns */
+.instructorSifu {
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  flex: 0 0 20prem; 
+  background-color: #f7f7f7;
+  padding: 1rem;
+  height: fit-content;
+  z-index: 1;
+}
+
+.instructorColumn {
+  overflow-y: auto;
+  max-height: 80vh;
+  flex: 1;
+  padding: 1rem;
+}

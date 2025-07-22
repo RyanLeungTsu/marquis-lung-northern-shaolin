@@ -290,19 +290,18 @@ function fullCalendarShortcode()
 }
 add_shortcode('fullcalendar', 'fullCalendarShortcode');
 
-function sifuBlockShortcode()
-{
-    $args = array(
-        'post_type' => 'instructor',
-        'tax_query' => array(
-            array(
+function sifuBlockShortcode() {
+    $args = [
+        'post_type'      => 'instructor',
+        'tax_query'      => [
+            [
                 'taxonomy' => 'location',
-                'field' => 'slug',
-                'terms' => 'sifu',
-            ),
-        ),
+                'field'    => 'slug',
+                'terms'    => 'sifu',
+            ],
+        ],
         'posts_per_page' => -1,
-    );
+    ];
 
     $query = new WP_Query($args);
 
@@ -311,24 +310,55 @@ function sifuBlockShortcode()
     }
 
     ob_start();
-
-    echo '<div class="sifuBlock">';
-
-    while ($query->have_posts()) {
-        $query->the_post();
-
-        echo '<div class="sifuPost">';
-        echo '<h2><a href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a></h2>';
-        echo '</div>';
-    }
-
-    echo '</div>';
-
+    ?>
+    <div class="sifuBlock">
+        <?php while ($query->have_posts()) : $query->the_post(); ?>
+            <div class="sifuPost">
+                <?php 
+                if (has_post_thumbnail()) {
+                    echo '<div class="sifuPost-thumbnail">';
+                    the_post_thumbnail('medium'); 
+                    echo '</div>';
+                }
+                ?>
+                <h2><a href="<?php echo esc_url(get_permalink()); ?>"><?php the_title(); ?></a></h2>
+                <div class="sifuPost-content">
+                    <?php the_content(); ?>
+                </div>
+            </div>
+        <?php endwhile; ?>
+    </div>
+    <?php
     wp_reset_postdata();
 
     return ob_get_clean();
 }
 add_shortcode('sifu_block', 'sifuBlockShortcode');
+
+// Shortcode: Google Maps
+// function enqueueMapAssets() {
+//     $uri = get_template_directory_uri(); 
+
+//     wp_enqueue_style('location-map-style', $uri . '/assets/google-maps/location.css');
+//     wp_enqueue_script('location-map-script', $uri . '/assets/google-maps/location.js', array(), null, true);
+// }
+// add_action('wp_enqueue_scripts', 'enqueueMapAssets');
+
+// add_action('wp_footer', function () {
+//     echo '<script type="module" src="https://ajax.googleapis.com/ajax/libs/@googlemaps/extended-component-library/0.6.11/index.min.js"></script>';
+// }, 99);
+
+// function mapShortcode() {
+//     return '
+//     <gmpx-api-loader 
+//       key="AIzaSyAzFpOyl19QenOe4dOho44PQkTTiZYxoPE"
+//       solution-channel="GMP_QB_locatorplus_v11_cABD">
+//     </gmpx-api-loader>
+//     <gmpx-store-locator map-id="DEMO_MAP_ID"></gmpx-store-locator>
+//     ';
+// }
+// add_shortcode('location_map', 'mapShortcode');
+
 // Custom Image Sizes
 function custom_image_sizes()
 {

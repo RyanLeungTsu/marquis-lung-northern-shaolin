@@ -57,8 +57,10 @@
     },
     "layout": {
       "contentSize": "645px",
-      "wideSize": "1340px"
+      "wideSize": "1340px",
+      "enableWideAlignments": true
     },
+
     "spacing": {
       "defaultSpacingSizes": false,
       "spacingSizes": [
