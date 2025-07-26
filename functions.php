@@ -290,51 +290,6 @@ function fullCalendarShortcode()
 }
 add_shortcode('fullcalendar', 'fullCalendarShortcode');
 
-function sifuBlockShortcode() {
-    $args = [
-        'post_type'      => 'instructor',
-        'tax_query'      => [
-            [
-                'taxonomy' => 'location',
-                'field'    => 'slug',
-                'terms'    => 'sifu',
-            ],
-        ],
-        'posts_per_page' => -1,
-    ];
-
-    $query = new WP_Query($args);
-
-    if (!$query->have_posts()) {
-        return '<p>No instructors found with location "Sifu".</p>';
-    }
-
-    ob_start();
-    ?>
-    <div class="sifuBlock">
-        <?php while ($query->have_posts()) : $query->the_post(); ?>
-            <div class="sifuPost">
-                <?php 
-                if (has_post_thumbnail()) {
-                    echo '<div class="sifuPost-thumbnail">';
-                    the_post_thumbnail('medium'); 
-                    echo '</div>';
-                }
-                ?>
-                <h2><a href="<?php echo esc_url(get_permalink()); ?>"><?php the_title(); ?></a></h2>
-                <div class="sifuPost-content">
-                    <?php the_content(); ?>
-                </div>
-            </div>
-        <?php endwhile; ?>
-    </div>
-    <?php
-    wp_reset_postdata();
-
-    return ob_get_clean();
-}
-add_shortcode('sifu_block', 'sifuBlockShortcode');
-
 // Custom Image Sizes
 function custom_image_sizes()
 {
