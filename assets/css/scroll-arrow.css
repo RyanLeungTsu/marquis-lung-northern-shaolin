@@ -8,7 +8,7 @@
   z-index: 9999;
   cursor: pointer;
   background: none;
-  color: white;
+  color: var(--text);
   border: none;
   outline: none;
   transition: background 0.3s;

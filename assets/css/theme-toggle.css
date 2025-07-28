@@ -4,16 +4,16 @@
   --background: #050018;
   --primary: #373eb9;
   --secondary: #747afa;
-  --accent: #379a58;
+  --accent: #c71f13;
 }
 
 /* Light mode */
 [data-theme="light"] {
   --text: #0e0a07;
-  --background: #ffd29e;
-  --primary: #ff8800;
+  --background: #f0f0f0;
+  --primary: #962f00;
   --secondary: #ffbd71;
-  --accent: #379a58;
+  --accent: #c71f13;
 }
 .toggleBtn svg {
   stroke: var(--text);
@@ -47,6 +47,21 @@
 
 @media(min-width: 60em) {
     .toggleBtn {
-        top: 5rem;
+        top: 13rem;
     }
+}
+
+body,
+.wp-site-blocks,
+.editor-styles-wrapper,
+.entry-content,
+.wp-block-post-content {
+  background-color: var(--background);
+  color: var(--text);
+}
+
+body a,
+.entry-content a,
+.wp-block-post-content a {
+  color: var(--primary);
 }

@@ -13,15 +13,12 @@
 //  Enqueue Styles
 function enqueueStyles()
 {
-    wp_enqueue_style('northernShaolinStyle', get_theme_file_uri('/style.css'), [], '1.0');
-
-    wp_enqueue_style('ns-carousel-style', get_template_directory_uri() . '/assets/css/carousel.css', [], '1.0');
-
-    wp_enqueue_style('ns-home-page-style', get_template_directory_uri() . '/assets/css/home.css', [], '1.0');
-
-    wp_enqueue_style('ns-scroll-arrow-style', get_template_directory_uri() . '/assets/css/scroll-arrow.css', [], '1.0');
-
+    // Enqueue theme toggle to ensure root colors work
     wp_enqueue_style('ns-theme-toggle-style', get_template_directory_uri() . '/assets/css/theme-toggle.css', [], '1.0');
+    wp_enqueue_style('northernShaolinStyle', get_theme_file_uri('/style.css'), ['ns-theme-toggle-style'], '1.0');
+    wp_enqueue_style('ns-carousel-style', get_template_directory_uri() . '/assets/css/carousel.css', ['ns-theme-toggle-style'], '1.0');
+    wp_enqueue_style('ns-home-page-style', get_template_directory_uri() . '/assets/css/home.css', ['ns-theme-toggle-style'], '1.0');
+    wp_enqueue_style('ns-scroll-arrow-style', get_template_directory_uri() . '/assets/css/scroll-arrow.css', ['ns-theme-toggle-style'], '1.0');
 }
 add_action('wp_enqueue_scripts', 'enqueueStyles');
 
