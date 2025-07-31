@@ -10,8 +10,8 @@
 /* Light mode */
 [data-theme="light"] {
   --text: #0e0a07;
-  --background: #f0f0f0;
-  --primary: #962f00;
+  --background: #fefefe;
+  --primary: #c71f13;
   --secondary: #ffbd71;
   --accent: #c71f13;
 }

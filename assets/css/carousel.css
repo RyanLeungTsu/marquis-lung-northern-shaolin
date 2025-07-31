@@ -31,5 +31,5 @@
   object-fit: cover;
   object-position: center center;
   display: block;
-  opacity: 60%;
+  filter: brightness(60%);
 }

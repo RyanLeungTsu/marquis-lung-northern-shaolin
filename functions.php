@@ -70,6 +70,25 @@ function registerDirectorsCpt()
 }
 add_action('init', 'registerDirectorsCpt');
 
+// Custom Post Type: Gallery
+function registerGalleryCpt() {
+    $args = array(
+        'labels' => array(
+            'name' => 'Photos',
+            'singular_name' => 'Photo',
+        ),
+        'public' => true,
+        'has_archive' => true,
+        'rewrite' => array('slug' => 'photos'),
+        'supports' => array('title', 'editor', 'thumbnail'),
+        'menu_position' => 6,
+        'menu_icon' => 'dashicons-format-image',
+        'show_in_rest' => true, 
+    );
+    register_post_type('photo', $args);
+}
+add_action('init', 'registerGalleryCpt');
+
 // CUSTOM TAXONOMY
 // Custom Taxonomy: Location
 function registerLocationTaxonomy()
@@ -159,6 +178,34 @@ function registerDirectorTitleTaxonomy()
     }
 }
 add_action('init', 'registerDirectorTitleTaxonomy');
+
+// Custom Taxonomy: Gallery Filters
+function registerGalleryFilterTaxonomy()
+{
+    $taxonomy = 'gallery-filter';
+
+    register_taxonomy($taxonomy, array('photo'), array(
+        'labels' => array(
+            'name' => 'Photo Types',
+            'singular_name' => 'Photo Type',
+            'add_new_item' => 'Add New Photo Type',
+            'new_item_name' => 'New Photo Type Name',
+        ),
+        'hierarchical' => true,
+        'show_admin_column' => true,
+        'rewrite' => array('slug' => $taxonomy),
+        'show_in_rest' => true, 
+    ));
+
+    $defaultTypes = array('General', 'Dragon Dance', 'Annual Performance', 'Trips', 'Training', 'Events', 'Tournaments');
+
+    foreach ($defaultTypes as $type) {
+        if (!term_exists($type, $taxonomy)) {
+            wp_insert_term($type, $taxonomy);
+        }
+    }
+}
+add_action('init', 'registerGalleryFilterTaxonomy');
 
 // Shortcode
 // Shortcode and Enqueue: Carousel
@@ -288,6 +335,7 @@ function fullCalendarShortcode()
 add_shortcode('fullcalendar', 'fullCalendarShortcode');
 
 // Custom Image Sizes
+add_theme_support('post-thumbnails');
 function custom_image_sizes()
 {
     // Add custom image sizes
@@ -295,6 +343,7 @@ function custom_image_sizes()
     add_image_size('medium', 300, 300, true);
     add_image_size('large', 600, 600, true);
     add_image_size('bg', 1920, 1080, true);
+    add_image_size('gallery', 960, 960, true); 
 
     // Add custom sizes to media selector dropdown in WP Admin
     add_filter('image_size_names_choose', function ($sizes) {
@@ -303,6 +352,7 @@ function custom_image_sizes()
             'medium' => __('NS Medium'),
             'large' => __('NS Large'),
             'bg' => __('NS Background'),
+            'gallery' => __('NS Gallery Photo'),
         ]);
     });
 }
@@ -321,4 +371,23 @@ function useCustomImgSize()
         }
     }
 }
-
+// Replace default thumbnail size
+add_filter('render_block', function ($block_content, $block) {
+    if ($block['blockName'] === 'core/post-featured-image') {
+        if (isset($block['attrs']['sizeSlug']) && $block['attrs']['sizeSlug'] === 'thumbnail') {
+            $post_id = get_the_ID();
+            $image_id = get_post_thumbnail_id($post_id);
+            if ($image_id) {
+                $image_html = wp_get_attachment_image($image_id, 'gallery', false, [
+                    'class' => 'wp-block-post-featured-image galleryImg',
+                ]);
+                return $image_html;
+            }
+        }
+    }
+    return $block_content;
+}, 10, 2);
+// Password expire set to 1 hour
+add_filter('post_password_expires', function($expires) {
+    return 3600; 
+});
