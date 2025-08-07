@@ -1,0 +1,50 @@
+/* Target My Calendar's main elements */
+.mc-main,
+.mc-main .mc-date,
+.mc-main .mc-event,
+.mc-main .category,
+.mc-main .details,
+.mc-main .calendar-date,
+.mc-main td,
+.mc-main th {
+  background-color: var(--background) !important;
+  color: var(--text) !important;
+  border-color: var(--secondary);
+}
+
+/* Event titles and links */
+.mc-main a,
+.mc-main .event-title a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.mc-main a:hover,
+.mc-main .event-title a:hover {
+  color: var(--accent);
+}
+
+/* Buttons */
+.mc-main .mc-controls button,
+.mc-main .mc-controls .button {
+  background-color: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.mc-main .mc-controls button:hover,
+.mc-main .mc-controls .button:hover {
+  background-color: var(--primary);
+  color: var(--background);
+}
+
+/* Highlight today's date */
+.mc-main td.today {
+  background-color: var(--secondary);
+  color: var(--background);
+}
+
+/* Calendar title */
+.heading {
+      color: var(--text) !important;
+}

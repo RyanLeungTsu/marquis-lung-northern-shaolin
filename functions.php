@@ -19,12 +19,27 @@ function enqueueStyles()
     wp_enqueue_style('ns-carousel-style', get_template_directory_uri() . '/assets/css/carousel.css', ['ns-theme-toggle-style'], '1.0');
     wp_enqueue_style('ns-home-page-style', get_template_directory_uri() . '/assets/css/home.css', ['ns-theme-toggle-style'], '1.0');
     wp_enqueue_style('ns-scroll-arrow-style', get_template_directory_uri() . '/assets/css/scroll-arrow.css', ['ns-theme-toggle-style'], '1.0');
+    wp_enqueue_style('ns-myCalendar-style', get_template_directory_uri() . '/assets/css/myCalendar.css', ['ns-theme-toggle-style'], '1.0');
 }
 add_action('wp_enqueue_scripts', 'enqueueStyles');
 
 // Block editor support
 add_theme_support('editor-styles');
 add_editor_style('/assets/css/editor.css');
+
+// Makes ACF exposed in REST API
+function expose_acf_fields_in_rest($data, $post, $request) {
+    // Only for event CPT
+    if ($post->post_type === 'event') {
+        // Get all ACF fields for this post
+        $acf_fields = get_fields($post->ID);
+        if ($acf_fields) {
+            $data->data['acf'] = $acf_fields;
+        }
+    }
+    return $data;
+}
+add_filter('rest_prepare_event', 'expose_acf_fields_in_rest', 10, 3);
 
 // CUSTOM CPTS
 // Custom Post Type: Instructors
@@ -88,6 +103,25 @@ function registerGalleryCpt() {
     register_post_type('photo', $args);
 }
 add_action('init', 'registerGalleryCpt');
+
+// Custom Post Type: Events
+function registerEventsCpt() {
+    $args = array(
+        'labels' => array(
+            'name' => 'Events',
+            'singular_name' => 'Event',
+        ),
+        'public' => true,
+        'has_archive' => true,
+        'rewrite' => array('slug' => 'events'),
+        'supports' => array('title', 'editor', 'custom-fields'),
+        'menu_position' => 7,
+        'menu_icon' => 'dashicons-calendar-alt',
+        'show_in_rest' => true,
+    );
+    register_post_type('event', $args);
+}
+add_action('init', 'registerEventsCpt');
 
 // CUSTOM TAXONOMY
 // Custom Taxonomy: Location
@@ -294,45 +328,6 @@ function themeToggleShortcode()
     return '<button id="theme-toggle-btn" aria-label="Toggle Theme" class="toggleBtn"></button>';
 }
 add_shortcode('theme_toggle', 'ThemeToggleShortcode');
-
-// Shortcode: Full Calendar Library Shortcode
-function enqueueFullCalendar()
-{
-    // CDN used for css
-    wp_enqueue_style(
-        'fullcalendar-css',
-        'https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css',
-        [],
-        '6.1.11'
-    );
-    // js files locally
-    wp_enqueue_script(
-        'fullcalendar-js',
-        get_template_directory_uri() . '/assets/js/full-calendar/index.global.min.js',
-        [],
-        '6.1.11',
-        true
-    );
-}
-add_action('wp_enqueue_scripts', 'enqueueFullCalendar');
-
-function fullCalendarShortcode()
-{
-    wp_enqueue_style('fullcalendar-css');
-    wp_enqueue_script('fullcalendar-js');
-
-    // customization with custom init script
-    wp_enqueue_script(
-        'fullcalendar-init',
-        get_template_directory_uri() . '/assets/js/full-calendar/full-calendar-init.js',
-        ['fullcalendar-js'],
-        '1.0',
-        true
-    );
-
-    return '<div id="calendar"></div>';
-}
-add_shortcode('fullcalendar', 'fullCalendarShortcode');
 
 // Custom Image Sizes
 add_theme_support('post-thumbnails');
