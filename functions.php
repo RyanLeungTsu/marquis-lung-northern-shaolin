@@ -8,7 +8,7 @@
  * @subpackage northern-shaolin-theme
  * @since northern-shaolin-theme 1.0
  */
-// Animate on Scroll from https://michalsnik.github.io/aos/
+
 
 //  Enqueue Styles
 function enqueueStyles()
@@ -26,6 +26,17 @@ add_action('wp_enqueue_scripts', 'enqueueStyles');
 // Block editor support
 add_theme_support('editor-styles');
 add_editor_style('/assets/css/editor.css');
+
+// Override css for voerriding plugins and theme css
+function ns_enqueue_overrides() {
+    wp_enqueue_style(
+        'ns-overrides',
+        get_template_directory_uri() . '/assets/css/overrides.css',
+        [],
+        '1.0'
+    );
+}
+add_action('wp_enqueue_scripts', 'ns_enqueue_overrides', 99);
 
 // Makes ACF exposed in REST API
 function expose_acf_fields_in_rest($data, $post, $request) {
@@ -52,7 +63,7 @@ function register_instructors_cpt()
         ),
         'public' => true,
         'has_archive' => true,
-        'rewrite' => array('slug' => 'instructors'),
+        'rewrite' => array('slug' => 'instructors-archive'),
         'supports' => array('title', 'editor', 'thumbnail'),
         'menu_position' => 5,
         'menu_icon' => 'dashicons-groups',
@@ -75,7 +86,7 @@ function registerDirectorsCpt()
         ),
         'public' => true,
         'has_archive' => true,
-        'rewrite' => array('slug' => 'directors'),
+        'rewrite' => array('slug' => 'directors-archive'),
         'supports' => array('title', 'editor', 'thumbnail'),
         'menu_position' => 5,
         'menu_icon' => 'dashicons-businessman',
@@ -157,6 +168,20 @@ function registerLocationTaxonomy()
 }
 add_action('init', 'registerLocationTaxonomy');
 
+// Custom fix for excluding post
+function exclude_specific_post_from_queries($query) {
+    if (!is_admin() && is_page('instructors')) {
+        $excluded = $query->get('post__not_in');
+        
+        if (!is_array($excluded)) {
+            $excluded = array();
+        }
+        $excluded[] = 208; // add post to exclude
+        $query->set('post__not_in', $excluded);
+    }
+}
+add_action('pre_get_posts', 'exclude_specific_post_from_queries');
+
 // Custom Taxonomy: Status
 function registerStatusTaxonomy()
 {
@@ -175,7 +200,7 @@ function registerStatusTaxonomy()
         'show_in_rest' => true,
     ));
 
-    $defaultStatuses = array('Current', 'Former');
+    $defaultStatuses = array('Current', 'Former', 'Student Instructor');
 
     foreach ($defaultStatuses as $status) {
         if (!term_exists($status, $taxonomy)) {
@@ -327,7 +352,7 @@ function themeToggleShortcode()
 
     return '<button id="theme-toggle-btn" aria-label="Toggle Theme" class="toggleBtn"></button>';
 }
-add_shortcode('theme_toggle', 'ThemeToggleShortcode');
+add_shortcode('theme_toggle', 'themeToggleShortcode');
 
 // Custom Image Sizes
 add_theme_support('post-thumbnails');
