@@ -27,11 +27,11 @@ add_action('wp_enqueue_scripts', 'enqueueStyles');
 add_theme_support('editor-styles');
 add_editor_style('/assets/css/editor.css');
 
-// Override css for voerriding plugins and theme css
+// Override css for overriding plugins and theme css
 function ns_enqueue_overrides() {
     wp_enqueue_style(
-        'ns-overrides',
-        get_template_directory_uri() . '/assets/css/overrides.css',
+        'ns-override',
+        get_template_directory_uri() . '/assets/css/override.css',
         [],
         '1.0'
     );
