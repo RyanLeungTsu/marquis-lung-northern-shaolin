@@ -1,3 +1,17 @@
+/* General */
+body {
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+/* [data-sticky],
+.is-sticky,
+.uag-sticky {
+  position: static !important;
+} */
 /* Gallery Page */
 .wp-block-post-template .wp-block-post-featured-image.galleryImg {
   width: 100%;
@@ -16,7 +30,7 @@
 
 /* Location Page */
 .pageTitle h1.uagb-heading-text {
-  font-size: clamp(2rem, 6vw, 15rem) !important;
+  font-size: clamp(5rem, 6vw, 15rem) !important;
 }
 
 /* Images top center */
@@ -29,4 +43,18 @@ img {
   object-fit: cover;
   object-position: top center;
   display: block;
+}
+
+/* Sidebar sticky on desktop */
+html, body, .uagb-block-e80133ca {
+  overflow: visible;
+}
+
+@media (min-width: 48rem) {
+  .sidebar {
+    position: sticky;
+    top: 2rem;
+    align-self: flex-start;
+    height: fit-content;
+  }
 }

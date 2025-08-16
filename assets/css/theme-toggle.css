@@ -65,3 +65,7 @@ body a,
 .wp-block-post-content a {
   color: var(--primary);
 }
+
+.sidebar {
+  border: var(--text);
+}
