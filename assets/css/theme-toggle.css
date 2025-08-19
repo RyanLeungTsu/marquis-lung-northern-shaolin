@@ -1,20 +1,24 @@
 /* Default dark mode */
 :root {
   --text: #f8f4f1;
-  --background: #050018;
-  --primary: #373eb9;
+  --background: #000000;
+  --primary: #6e48c7;
   --secondary: #747afa;
-  --accent: #c71f13;
+  --accent: #290045;
+  --mutedaccent: #303030;
 }
 
 /* Light mode */
 [data-theme="light"] {
   --text: #0e0a07;
-  --background: #fefefe;
-  --primary: #c71f13;
+  --background: #eeeeee;
+  --primary: #d32114;
   --secondary: #ffbd71;
-  --accent: #c71f13;
+  --accent: #680700;
+  --mutedaccent: #cbcbcb;
 }
+
+/* Theme Toggle Button */
 .toggleBtn svg {
   stroke: var(--text);
   width: 1.25rem;
@@ -51,6 +55,7 @@
     }
 }
 
+/* General Settings */
 body,
 .wp-site-blocks,
 .editor-styles-wrapper,
@@ -60,12 +65,56 @@ body,
   color: var(--text);
 }
 
+a {
+  color: var(--text);
+}
+
 body a,
 .entry-content a,
 .wp-block-post-content a {
   color: var(--primary);
 }
 
-.sidebar {
-  border: var(--text);
+.sidebar.uagb-is-root-container {
+  border: 0.3px solid var(--mutedaccent);
+} 
+
+/* Header */
+.nsHeader {
+  background-color: var(--background);
 }
+
+.nsHeader .wp-block-uagb-separator__inner {
+  border-color: var(--mutedaccent);
+}
+
+.wp-block-navigation .wp-block-navigation-item .wp-block-navigation__submenu-container {
+  background-color: var(--background);
+}
+
+.wp-block-navigation .wp-block-navigation-item .wp-block-navigation__submenu-container a {
+  color: var(--text);
+}
+
+/* Footer */
+.nsFooter {
+  background-color: var(--background);
+}
+
+.nsFooter.uagb-is-root-container .wp-block-uagb-separator__inner {
+  border-color: var(--mutedaccent);
+}
+
+.is-style-logos-only {
+  color: var(--text);
+}
+
+/* Forms */
+div.wpforms-container-full .wpforms-field-label, .wp-core-ui div.wpforms-container-full .wpforms-field-label {
+  color: var(--text);
+}
+
+div.wpforms-container-full .wpforms-field-sublabel, .wp-core-ui div.wpforms-container-full .wpforms-field-sublabel {
+  color: var(--text);
+}
+

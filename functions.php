@@ -8,19 +8,13 @@
  * @subpackage northern-shaolin-theme
  * @since northern-shaolin-theme 1.0
  */
-
-
-
-
 //  Enqueue Styles
 function ns_enqueue_assets() {
     // Main Styles
-    wp_enqueue_style('northernShaolinStyle', get_theme_file_uri('/style.css'), [], '1.0');
-    wp_enqueue_style('ns-theme-toggle', get_template_directory_uri() . '/assets/css/theme-toggle.css', [], '1.0');
-    wp_enqueue_style('ns-carousel-style', get_template_directory_uri() . '/assets/css/carousel.css', ['ns-theme-toggle'], '1.0');
-    wp_enqueue_style('ns-home-page-style', get_template_directory_uri() . '/assets/css/home.css', ['ns-theme-toggle'], '1.0');
-    wp_enqueue_style('ns-myCalendar-style', get_template_directory_uri() . '/assets/css/myCalendar.css', ['ns-theme-toggle'], '1.0');
-    wp_enqueue_style('ns-override', get_template_directory_uri() . '/assets/css/override.css', [], '1.0');
+    wp_enqueue_style('ns-theme-toggle', get_template_directory_uri() . '/assets/css/theme-toggle.css', [], '1.1');
+    wp_enqueue_style('ns-carousel-style', get_template_directory_uri() . '/assets/css/carousel.css', [], '1.0');
+    wp_enqueue_style('ns-home-page-style', get_template_directory_uri() . '/assets/css/home.css', [], '1.0');
+    wp_enqueue_style('ns-myCalendar-style', get_template_directory_uri() . '/assets/css/myCalendar.css', [], '1.0');
     wp_enqueue_style('scroll-arrow-style', get_template_directory_uri() . '/assets/css/scroll-arrow.css', [], '1.0');
 
     // Scripts
@@ -29,6 +23,12 @@ function ns_enqueue_assets() {
     wp_enqueue_script('theme-toggle-script', get_template_directory_uri() . '/assets/js/theme-toggle/theme-toggle.js', [], '1.0', true);
 }
 add_action('wp_enqueue_scripts', 'ns_enqueue_assets');
+
+// Override
+function ns_enqueue_override() {
+    wp_enqueue_style('ns-override', get_template_directory_uri() . '/assets/css/override.css', [], '1.1');
+}
+add_action('wp_enqueue_scripts', 'ns_enqueue_override', 999);
 
 // Editor Styles
 add_theme_support('editor-styles');
