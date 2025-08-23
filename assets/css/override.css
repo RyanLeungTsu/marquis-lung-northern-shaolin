@@ -28,9 +28,18 @@ main {
   aspect-ratio: 5/3;
 }
 
-/* Location Page */
+/*General Styles */
 .pageTitle h1.uagb-heading-text {
-  font-size: clamp(5rem, 6vw, 15rem) !important;
+  font-size: clamp(5rem, 22vw, 10rem) !important;
+}
+
+.pageTitle2 h2.uagb-heading-text {
+  font-size: clamp(3rem, 22vw, 6rem) !important;
+}
+
+/* Home Page */
+.homeTitle h1.uagb-heading-text {
+  font-size: clamp(5rem, 22vw, 18rem) !important;
 }
 
 /* Images top center */

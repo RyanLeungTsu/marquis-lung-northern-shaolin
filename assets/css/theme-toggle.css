@@ -3,6 +3,7 @@
   --text: #f8f4f1;
   --background: #000000;
   --primary: #6e48c7;
+  --primaryOpacity50: rgba(110, 72, 199, 0.65);
   --secondary: #747afa;
   --accent: #290045;
   --mutedaccent: #303030;
@@ -11,8 +12,9 @@
 /* Light mode */
 [data-theme="light"] {
   --text: #0e0a07;
-  --background: #eeeeee;
+  --background: #f4f4f4;
   --primary: #d32114;
+  --primaryOpacity50: rgba(211, 33, 20, 0.65);
   --secondary: #ffbd71;
   --accent: #680700;
   --mutedaccent: #cbcbcb;
@@ -28,12 +30,12 @@
 .toggleBtn {
   position: fixed;
   bottom: 10rem;
-  right: 1rem;
+  right: 4rem;
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
-  border: 2px solid var(--text);
-  background-color: transparent;
+  border: none;
+  background-color: var(--primaryOpacity50);
   color: var(--text);
   display: flex;
   align-items: center;
@@ -46,7 +48,7 @@
 
 .toggleBtn:hover {
   box-shadow: 0 0 10px var(--accent);
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--primaryOpacity50);
 }
 
 @media(min-width: 60em) {
@@ -118,3 +120,4 @@ div.wpforms-container-full .wpforms-field-sublabel, .wp-core-ui div.wpforms-cont
   color: var(--text);
 }
 
+/* Instructor Page*/

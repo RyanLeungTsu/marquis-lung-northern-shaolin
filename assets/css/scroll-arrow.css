@@ -1,15 +1,42 @@
 .scroll-arrow-button {
+  display: none;
   position: fixed;
   bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
-  padding: 1rem;
-  font-size: 7rem;
+  width: 5rem;               
+  height: 5rem;              
+  font-size: 3rem;           
+  font-weight: 700;           
   z-index: 9999;
   cursor: pointer;
-  background: none;
+  background-color: var(--primaryOpacity50);
   color: var(--text);
-  border: none;
+  border: none;    
   outline: none;
-  transition: background 0.3s;
+  transition: background 0.3s, transform 0.3s;
+  border-radius: 50%;         
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: bounce 2s infinite;
+}
+
+@media(min-width: 60em) {
+  .scroll-arrow-button {        
+    display: flex;
+  }
+}
+
+/* Animation */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  40% {
+    transform: translateX(-50%) translateY(-5px); 
+  }
+  60% {
+    transform: translateX(-50%) translateY(-5px); 
+  }
 }
