@@ -31,6 +31,6 @@
   object-fit: cover;
   object-position: center center;
   display: block;
-  filter: brightness(60%);
+  filter: brightness(50%);
 }
 
