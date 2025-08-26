@@ -30,7 +30,7 @@ main {
 
 /*General Styles */
 .pageTitle h1.uagb-heading-text {
-  font-size: clamp(3rem, 22vw, 10rem) !important;
+  font-size: clamp(3rem, 12vw, 10rem) !important;
 }
 
 .pageTitle2 h2.uagb-heading-text {
@@ -39,7 +39,9 @@ main {
 
 /* Home Page */
 .homeTitle h1.uagb-heading-text {
-  font-size: clamp(4rem, 22vw, 18rem) !important;
+  font-size: clamp(2.5rem, 12vw, 18rem) !important;
+  margin-top: 5rem;
+  margin-left: 1rem;
 }
 
 /* Images top center */
@@ -113,6 +115,36 @@ body a,
   color: var(--text);
 }
 
+/* Header text and navigation */
+.nsHeader,
+.nsHeader a,
+.nsHeader .wp-block-navigation a,
+.nsHeader .wp-block-navigation li a,
+.nsHeader .wp-block-navigation .sub-menu a {
+    color: var(--text) !important;
+}
+
+.nsHeader .wp-block-navigation ul.sub-menu {
+    background-color: var(--background) !important;
+}
+
+.nsHeader .wp-block-navigation__responsive-container {
+    background-color: var(--background) !important;
+}
+
+.nsHeader .wp-block-navigation li:hover > a,
+.nsHeader .wp-block-navigation .sub-menu li:hover > a {
+    color: var(--primary) !important;
+}
+
+.nsHeader .wp-block-navigation li {
+    border-color: var(--text) !important;
+}
+
+.wp-block-navigation__responsive-container-open,
+.wp-block-navigation__responsive-container-close {
+    display: none !important;
+}
 /* Footer */
 .nsFooter {
   background-color: var(--background);
