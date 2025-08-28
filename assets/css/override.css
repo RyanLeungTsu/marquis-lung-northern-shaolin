@@ -115,6 +115,10 @@ body a,
   color: var(--text);
 }
 
+.headerTitle h1.uagb-heading-text {
+  font-size: clamp(2.5rem, 5vw, 4rem) !important;
+}
+
 /* Header text and navigation */
 .nsHeader,
 .nsHeader a,

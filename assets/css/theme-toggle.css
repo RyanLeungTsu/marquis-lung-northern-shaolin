@@ -2,8 +2,8 @@
 :root {
   --text: #f8f4f1;
   --background: #000000;
-  --primary: #484cc7;
-  --primaryOpacity50: rgba(72, 87, 199, 0.65);
+  --primary: #5f64fd;
+  --primaryOpacity50: rgba(87, 106, 243, 0.65);
   --secondary: #7491fa;
   --accent: #060045;
   --mutedaccent: #303030;
