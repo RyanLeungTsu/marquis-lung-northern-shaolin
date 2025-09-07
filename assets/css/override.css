@@ -39,9 +39,18 @@ main {
 
 /* Home Page */
 .homeTitle h1.uagb-heading-text {
-  font-size: clamp(2.5rem, 12vw, 18rem) !important;
-  margin-top: 5rem;
+  font-size: clamp(2.5rem, 12vw, 11rem) !important;
+  margin-top: 7rem;
   margin-left: 1rem;
+  line-height: 5rem;
+}
+
+@media (min-width: 48rem) {
+  .homeTitle h1.uagb-heading-text{
+    margin-top: 10rem;
+    margin-left: 5rem;
+    line-height: normal;
+  }
 }
 
 /* Images top center */
@@ -88,6 +97,7 @@ body a,
 .entry-content a,
 .wp-block-post-content a {
   color: var(--primary);
+  font-weight: 160px;
 }
 
 .sidebar.uagb-is-root-container {
@@ -116,7 +126,7 @@ body a,
 }
 
 .headerTitle h1.uagb-heading-text {
-  font-size: clamp(2.5rem, 5vw, 4rem) !important;
+  font-size: clamp(2rem, 3vw, 3rem) !important;
 }
 
 /* Header text and navigation */
