@@ -7,11 +7,6 @@ main {
   flex: 1;
 }
 
-/* [data-sticky],
-.is-sticky,
-.uag-sticky {
-  position: static !important;
-} */
 /* Gallery Page */
 .wp-block-post-template .wp-block-post-featured-image.galleryImg {
   width: 100%;
@@ -73,7 +68,7 @@ html, body, .uagb-block-e80133ca {
 @media (min-width: 48rem) {
   .sidebar {
     position: sticky;
-    top: 2rem;
+    top: 1rem;
     align-self: flex-start;
     height: fit-content;
   }
